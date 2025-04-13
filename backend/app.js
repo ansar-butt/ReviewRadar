@@ -10,6 +10,9 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
+var sentiment = require("./routes/sentiment");
+app.use("/sentiment", sentiment);
+
 const port = 3000;
 
 app.listen(port, () => {
