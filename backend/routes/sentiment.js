@@ -19,18 +19,19 @@ router.post("/", async function (req, res) {
     const responseObj = JSON.parse(productData);
     return res.json(responseObj);
   } else {
-    const { reviews, imagePath } = fetchReviews(productURL);
+    const { reviews, imagePath, title } = fetchReviews(productURL);
     try {
       const sentiment = analyzeSentiment(reviews);
-      const result = await chatBotAnalysis([
-        `Write a ${sentiment} recommendation in English, using the following reviews as context while making sure to remove private details:`,
+      const review = await chatBotAnalysis([
+        `Write a ${sentiment} recommendation in English, using the following reviews as context while making sure to remove private details and keeping the recommendation in the range of 4-6 lines:`,
         ...reviews,
       ]);
 
       const responseObj = {
-        review: result,
-        image: imagePath,
+        review: review,
+        imagePath: imagePath,
         sentiment: sentiment,
+        title: title,
       };
       await redisClient.set(productURL, JSON.stringify(responseObj));
       res.json(responseObj);
