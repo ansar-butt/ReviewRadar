@@ -231,6 +231,10 @@ ReviewRadar/
 - Shadows and borders for better visual separation.
 - Typography for consistent text styling.
 
+### Video Demo
+
+https://github.com/user-attachments/assets/d03366b0-a79e-496c-827e-9dcd475be76d
+
 ## Future Enhancements
 
 1. **Dark Mode**:
