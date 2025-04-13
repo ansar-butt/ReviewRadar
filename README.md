@@ -184,3 +184,5 @@ The Redis server is started with the default configuration and runs on port `637
 - Supports text-based sentiment analysis and embeddings.
 
 ### Video Demo
+https://github.com/user-attachments/assets/d03366b0-a79e-496c-827e-9dcd475be76d
+
