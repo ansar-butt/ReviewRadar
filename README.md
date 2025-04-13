@@ -1,186 +1,276 @@
 # ReviewRadar
 
-## Purpose
+ReviewRadar is a web application that leverages AI to provide insightful product recommendations. Users can fetch product reviews by entering a product URL, and the app combines these reviews with sentiment analysis to generate an AI-based recommendation. Additionally, the app displays a list of popular products with their AI-based recommendation and images in a clean, responsive, and modern UI.
 
-This project is a sentiment analysis platform that helps users make informed purchase decisions by analyzing user reviews for products. It uses a Vite + React frontend, an Express.js backend, and Redis for data storage. The platform integrates with external AI APIs to provide dynamic, context-aware sentiment analysis, enabling users to quickly understand the overall sentiment of product reviews.
+## Features
 
-## Setup
+### 1. **AI-Based Product Recommendations**
 
-This demo creates a WebApp using Vite for the frontend. The demo uses React for the development of the frontend and Express.js for the development of the backend.
+- Combines user reviews and sentiment analysis to generate a concise, AI-driven recommendation for each product.
+- Provides actionable insights to help users make informed purchasing decisions.
 
-### Running the frontend
+### 2. **Fetch Product Reviews**
 
-You will need to have `node`, `npm`, and `yarn` installed on the device.\
-Documentation to install `node` and `npm` can be found [here](https://nodejs.org/en/download).\
-Documentation to install `yarn` can be found [here](https://classic.yarnpkg.com/lang/en/docs/install/).\
-The commands to start the Frontend are:\
-`cd frontend`\
-`yarn install`\
-`yarn dev`\
-The frontend runs on the port `5173`.
+- Users can enter a product URL to fetch its reviews.
+- Displays the product image, title, and a brief AI-generated recommendation based on the sentiment analysis.
 
-### Running the backend
+### 3. **Popular Products Section**
 
-You will also need to create a `.env` file which contains an API Key for the AI-Client. The client used is `together-api`. The sample contents of the `.env` file are as follows:\
-`TOGETHER_API_KEY = <YOUR_API_KEY>`\
-The commands to start the Backend are:\
-`cd backend`\
-`npm install`\
-`node app.js`\
-The backend runs on the port `3000`.
+- Displays a list of popular products in a responsive grid layout.
+- Each product card includes:
+  - Product image
+  - Product name
+  - AI-based recommendation
 
-### Running the Redis Server
+### 4. **Modern UI**
 
-We will also need a running `redis-server` to work as a database for this demo. The documentation to install the `redis-server` can be found [here](https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/).\
-The command to start the `redis-server` is:\
-`redis-server`\
-The Redis server is started with the default configuration and runs on port `6379`.
+- The UI is designed to be clean and consistent, inspired by the Stack Overflow design.
+- Uses Material-UI for responsive and modern components.
+- Includes hover effects, shadows, and borders for a polished look.
 
-## Architecture
+## Tech Stack
 
-### Tech Stack
+- **Frontend**: React, TypeScript, Material-UI
+- **Backend**: Node.js, Express
+- **Styling**: Material-UI with custom `sx` styling for components
+- **AI Integration**: Sentiment analysis and review aggregation for recommendations
+- **API Services**: Fetches data from custom APIs for reviews, sentiment analysis, and popular products
 
-- **Frontend**: Vite + React (Fast, modern frontend framework)
-- **Backend**: Express.js (Lightweight and scalable backend)
-- **Database**: Redis (Key-value store for fast reads/writes)
-- **AI Integration**: External API-based sentiment analysis (TogetherAI)
+## Setup Instructions
 
-### System Design
+### 1. **Backend**
 
-#### Frontend (Vite + React)
+The backend handles API requests, sentiment analysis, and communication with Redis.
 
-- **Component-Based UI**: Organized using React components with Flowbite for UI Components and TailwindCSS for styling.
-- **Routing**: `react-router-dom` for handling multiple views.
-- **API Communication**: Axios for backend requests.
+#### Installation
 
----
+1. Navigate to the backend directory:
 
-#### Frontend Directory Structure
+   ```bash
+   cd backend
+   ```
 
-    /frontend
-    │── /src
-    │   ├── /assets        	   # Static assets
-    │   ├── /components        # Reusable UI components
-    │   ├── /pages             # Application pages (HomePage, ProductPage)
-    │   ├── /services          # API services (API handlers)
-    │   ├── index.tsx          # Root file (React app entry)
-    │   ├── App.tsx            # Main component
-    │── /public                # Static assets
-    │── vite.config.ts         # Vite config file
-    │── package.json           # Dependencies
+2. Install dependencies:
 
----
+   ```bash
+   npm install
+   ```
 
-### Backend (Express.js + Redis)
+3. Create a `.env` file in the backend directory and add the following:
 
-- **Express for REST API**: Handles routes and business logic.
-- **Redis as a Database**: Stores sentiment analysis results and user queries.
-- **AI API Integration**: Calls external AI Assistant APIs for sentiment analysis.
-- **Rate Limiting**: Uses Redis for request throttling.
+   ```env
+   TOGETHER_API_KEY = <YOUR_API_KEY>
+   ```
 
-#### Backend Directory Structure
+4. Start the backend server:
 
-    /backend
-    │── /src
-    │   ├── /routes          # Express routes (Sentiment analysis, product data, etc.)
-    │   ├── /views           # Views
-    │   ├── /redis           # Redis Integration
-    │   ├── /config          # Config files (environment variables)
-    │   ├── server.js        # Main Express server
-    │── .env                 # Environment variables
-    │── package.json         # Dependencies
+   ```bash
+   nodemon app.js
+   ```
 
----
+5. The backend will be available at:
+   ```
+   http://localhost:5000
+   ```
 
-### Database (Redis)
+### 2. **Frontend**
 
-- Stores:
-  - Sentiment analysis results
-  - User queries and history
+The frontend is the React-based user interface for the application.
 
----
+#### Installation
 
-### AI Assistant Integration
+1. Navigate to the frontend directory:
 
-- Uses an external AI API (TogetherAI).
-- Requests handled via a backend service.
-- Sentiment analysis results stored in Redis to maintain a history for future sessions.
+   ```bash
+   cd frontend
+   ```
 
----
+2. Install dependencies:
 
-### Communication Flow
+   ```bash
+   yarn install
+   ```
 
-1.  **Frontend (Vite + React)**
-    - User submits a product review or query in the app.
-    - React calls the Express backend (`/api/sentiment`).
-2.  **Backend (Express)**
-    - Checks Redis for previous analysis results.
-    - Uses the history as context to generate a sentiment analysis for the current query.
-    - Stores the analysis result in Redis for future sessions.
-3.  **Redis (Database)**
-    - Manages sentiment analysis history (if needed).
+3. Start the development server:
 
----
+   ```bash
+   yarn dev
+   ```
 
-## Decisions
+4. Open the app in your browser:
+   ```
+   http://localhost:3000
+   ```
 
-### Vite + React (Frontend)
+### 3. **Redis**
 
-**Fast Development & Hot Reloading**
+Redis is used as a caching layer and storing popular data.
 
-- Vite offers instant builds & fast HMR (Hot Module Replacement).
-- React’s component-based architecture allows for modular and reusable UI components.
+#### Installation
 
-**Optimized Performance**
+1. Download and install Redis:
 
-- Vite only bundles the required code and supports lazy loading, improving app load times compared to Webpack-based setups.
+   - [Windows](https://github.com/microsoftarchive/redis/releases)
+   - [macOS/Linux](https://redis.io/docs/getting-started/installation/)
 
-**Rich Ecosystem**
+2. Start the Redis server:
 
-- Compatible with Tailwind CSS and Flowbite for rapid styling.
-- Large community allows for better support, libraries, and updates.
+   ```bash
+   redis-server
+   ```
 
----
+3. Verify Redis is running:
 
-### Express.js (Backend)
+   ```bash
+   redis-cli ping
+   ```
 
-**Minimal, Lightweight, and Fast**
+   You should see the response: `PONG`.
 
-- Has a small footprint, making it more efficient than heavier frameworks like Django or Rails.
+4. Update the backend configuration to include the Redis connection details (e.g., `localhost:6379`).
 
-**Seamless Integration with Redis & AI APIs**
+### 4. **Connecting All Components**
 
-- Easily connects with Redis (for caching sentiment analysis results).
-- Handles requests to AI APIs like Together.AI.
+Ensure all components are running:
 
----
+- Redis: `localhost:6379`
+- Backend: `http://localhost:5000`
+- Frontend: `http://localhost:3000`
 
-### Redis (Database & Cache)
+The backend will communicate with Redis and the AI Agent, while the frontend will interact with the backend to fetch data and display it.
 
-**In-Memory Data Storage**
+## Folder Structure
 
-- Redis is an in-memory database, making it faster than traditional databases.
+```
+ReviewRadar/
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── App.tsx
+│   │   │   ├── PopularProducts.tsx
+│   │   │   ├── Review.tsx
+│   │   ├── services/
+│   │   │   ├── apiServices.ts
+│   │   ├── utils/
+│   │   │   ├── types.ts
+│   │   ├── index.tsx
+│   ├── public/
+│   ├── package.json
+```
 
-**Flexible & Scalable**
+## Components Overview
 
-- Works as a database (RedisJSON) or a cache layer over SQL/NoSQL databases.
+### 1. **App.tsx**
 
-**Use of States**
+- The main entry point of the app.
+- Includes:
+  - A header with the app title and description.
+  - A form for entering a product URL.
+  - A section to display the fetched review and AI-based recommendation.
+  - The `PopularProducts` component to display popular products.
 
-- While a database like Firebase could have been used to store content such as product categories and review data, for the demo they are hardcoded.
+### 2. **PopularProducts.tsx**
 
----
+- Displays a list of popular products in a responsive grid layout.
+- Each product is displayed in a `Card` with:
+  - Product image
+  - Product name
+  - A single review
+  - AI-based recommendation
+- Wrapped in a `Box` for consistent styling.
 
-### API-Based Sentiment Analysis
+### 3. **Review.tsx**
 
-**On-Demand AI without Expensive Infrastructure**
+- Displays a single product review fetched from the URL.
+- Includes:
+  - Product image
+  - Product title
+  - Review content
+  - AI-based recommendation
+- Styled with Material-UI's `Card` and `Typography`.
 
-- Calling an external AI API (Together.AI) avoids the need to host an expensive LLM model yourself.
-- Pay only for what you use rather than managing servers.
+## AI Features
 
-**Flexible & Upgradable**
+### 1. **Sentiment Analysis**
 
-- The AI service can be easily swapped or upgraded.
-- Supports text-based sentiment analysis and embeddings.
+- Analyzes the sentiment of user reviews (positive, negative, or neutral).
+- Provides a sentiment score for each review.
 
-### Video Demo
+### 2. **AI-Based Recommendation**
+
+- Aggregates reviews and sentiment analysis to generate a concise recommendation.
+- Example:
+  - **Input Reviews**: "Great product!", "Good value for money."
+  - **AI Recommendation**: "Highly recommended for its value and quality."
+
+## API Services
+
+### 1. **fetchPopularProducts**
+
+- Fetches a list of popular products with their images, and AI-based recommendations.
+
+### 2. **fetchSentimentAnalysis**
+
+- Fetches the review and sentiment analysis for a product based on the provided URL.
+- Combines the sentiment analysis with reviews to generate an AI-based recommendation.
+
+## UI Design
+
+### Consistent Design
+
+- The UI is inspired by Stack Overflow, with a clean and minimalistic design.
+- Components are styled using Material-UI's `sx` prop for flexibility.
+
+### Responsive Layout
+
+- The app uses Material-UI's `Grid` system to ensure responsiveness across devices.
+
+### Key Features
+
+- Hover effects on product cards.
+- Shadows and borders for better visual separation.
+- Typography for consistent text styling.
+
+## Future Enhancements
+
+1. **Dark Mode**:
+
+   - Add a toggle for light and dark themes.
+
+2. **Pagination**:
+
+   - Add pagination for the popular products section.
+
+3. **Search Functionality**:
+
+   - Allow users to search for specific products in the popular products section.
+
+4. **Advanced AI Features**:
+
+   - Use machine learning models to provide more detailed product insights.
+
+5. **Backend Integration**:
+   - Integrate with a backend service for real-time data fetching.
+
+## License
+
+This project is licensed under the MIT License. See the LICENSE file for details.
+
+## Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch:
+   ```bash
+   git checkout -b feature-name
+   ```
+3. Make your changes and commit them:
+   ```bash
+   git commit -m "Add feature-name"
+   ```
+4. Push to the branch:
+   ```bash
+   git push origin feature-name
+   ```
+5. Open a pull request.
